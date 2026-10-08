@@ -1,12 +1,12 @@
 ---
 name: rao-review
-description: Review a SharinPix branch, diff or PR the way Rao reviews. Line-level asks to delete or simplify code, reshape tests, fix names, move logic to the object that owns it, and use Bootstrap and Ember idioms. Mostly Ember/TypeScript, some Rails. Use when invoked as /rao-review, optionally with a PR number, branch or path, or when the user asks for a Rao-style review.
+description: Review a branch, diff or PR the way Rao reviews. Line-level asks to delete or simplify code, reshape tests, fix names, move logic to the object that owns it, and use Bootstrap and Ember idioms. Mostly Ember/TypeScript, some Rails. Use when invoked as /rao-review, optionally with a PR number, branch or path, or when the user asks for a Rao-style review.
 argument-hint: "[PR number, branch or path]"
 ---
 
 # Rao review
 
-Review the change the way Rao does. He reads the diff line by line and leaves a handful of small, concrete asks, most of them a replacement snippet or a deletion. He reviews code shape, not production risk: use `/sharinpix-review` for tenancy, migrations, workers and backward compatibility.
+Review the change the way Rao does. He reads the diff line by line and leaves a handful of small, concrete asks, most of them a replacement snippet or a deletion. He reviews code shape, not production risk: tenancy, migrations, workers and backward compatibility belong to a separate production-risk review.
 
 ## What to review
 
@@ -18,7 +18,7 @@ Review the change the way Rao does. He reads the diff line by line and leaves a 
 
 Rao knows what the feature is for, which screens it touches and what the team decided. Many of his comments come from that, not from the diff. Before reviewing:
 
-1. Read what exists: the PR title, description and linked `SP-` ticket (`gh pr view <n> --json title,body`), or the branch's commit messages. Read the whole diff once.
+1. Read what exists: the PR title, description and linked ticket (`gh pr view <n> --json title,body`), or the branch's commit messages. Read the whole diff once.
 2. If any of these is still unclear, ask the user with AskUserQuestion, one batch, options where possible:
    - **Aim:** what should the user be able to do after this PR, and what is deliberately left for a later PR?
    - **Where it runs:** which of fill, readonly, PDF, form editor preview, mobile app relaunch, Salesforce, admin dashboard does this code path serve?
@@ -96,7 +96,7 @@ Search before you write the finding, and cite what you found.
 - A new argument that shares a stem with an existing getter: rename the argument (`prefix`, `parentX`) and keep the getter name.
 - Functions: verb plus object (`importData`). A name containing `deprecated` or `old` used on the main path is wrong.
 - Rails: say what it does (`find_or_create_item_image!` over `link_image!`).
-- Typos in identifiers and in class names (`btn-sp` for `sp-btn`). A test title or label that no longer matches the code.
+- Typos in identifiers and in class names (`btn-primay` for `btn-primary`). A test title or label that no longer matches the code.
 - One concept spelled several ways in the diff (`resizing_type`, `resize`, `resize_type`): one short noun everywhere, taken from the nearest existing key. A method that duplicates a sibling concept takes the sibling's name (`resources`, not `form_resources`).
 - Name a task for what it does (`sendOrgInfosTask`), a field for its role (`cleanupListener`), an argument `name` rather than `id` when it is a name. A timeout handle is not an `...Interval`.
 - A label that does not say what it scopes (a language selector on an admin page: "Dashboard language").
@@ -123,7 +123,7 @@ Search before you write the finding, and cite what you found.
 ### CSS and markup
 
 - Custom CSS that a Bootstrap utility covers: use the utility (`d-flex`, `gap-*`, `flex-grow-1`, `w-100`, `align-items-center`).
-- A variant of an existing component: reuse the global project classes (`sp-btn`, `sp-input`, `sp-form-*`) and extend the shared sass. Ask to delete a new `.module.css` and class strings built with `if`/`concat` in the template or in JS; use a small named class.
+- A variant of an existing component: reuse the project's global button, input and form classes and extend the shared sass. Ask to delete a new `.module.css` and class strings built with `if`/`concat` in the template or in JS; use a small named class.
 - Any element that renders a name, label or other user text gets `text-break`.
 - A utility class the parent or the default already provides (`w-100` on a block element): remove it. Prefer the shortest declaration (`flex: 1`).
 - A hover or selected style that changes size: `outline`, not `border`.
@@ -175,7 +175,7 @@ These produced most of the unwanted findings when this skill was tested against 
 - Accessibility labels, hard-coded colours, `px` versus `rem`, "magic values".
 - "Unrelated change" remarks on whitespace or small deliberate edits.
 - Making arguments required or removing fallbacks without having checked the callers.
-- Rails production risk (authorization breadth, param precedence, missing request specs): that is `/sharinpix-review`.
+- Rails production risk (authorization breadth, param precedence, missing request specs): that belongs to a separate production-risk review.
 
 ## Output
 

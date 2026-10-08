@@ -2,11 +2,11 @@
 
 A Claude plugin that reviews a branch, diff or pull request the way Rao does: line by line, with a handful of small, concrete asks. Most findings are a replacement snippet or "remove these lines".
 
-It is tuned for the SharinPix codebase (Ember and TypeScript front end, some Rails). It reviews code shape, not production risk.
+It is tuned for an Ember and TypeScript front end with some Rails. It reviews code shape, not production risk.
 
 ## What it does
 
-- Reads the PR title, description and linked `SP-` ticket, then asks you what the change is for if that is still unclear.
+- Reads the PR title, description and linked ticket, then asks you what the change is for if that is still unclear.
 - Searches the repo before it writes a finding: unused additions, code left behind after a move, missed renames, helpers that already exist, CSS classes with no rule.
 - Asks to delete or simplify code, move logic to the object that owns it, fix names, use Bootstrap utilities and Ember idioms (tasks, `.gts`, modifiers, zod).
 - Names the exact missing test case instead of "add a test".
