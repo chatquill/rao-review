@@ -1,0 +1,49 @@
+name: Release
+
+# Raise "version" in .claude-plugin/plugin.json and push to master.
+# If there is no GitHub release for that version yet, this builds
+# rao-review.skill and publishes release v<version> with it attached.
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.claude-plugin/plugin.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read the version
+        id: version
+        run: echo "tag=v$(jq -r .version .claude-plugin/plugin.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if the release already exists
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Release ${{ steps.version.outputs.tag }} already exists, nothing to do."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build rao-review.skill
+        if: steps.check.outputs.exists != 'true'
+        run: cd skills && zip -r ../rao-review.skill rao-review
+
+      - name: Create the release
+        if: steps.check.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" rao-review.skill \
+            --target "$GITHUB_SHA" \
+            --title "${{ steps.version.outputs.tag }}" \
+            --notes "Download rao-review.skill to upload the skill to Claude.ai. Claude Code users get this version with /plugin marketplace update rao-review."

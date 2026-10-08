@@ -1,0 +1,20 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate the plugin, marketplace and skill
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate --strict .
+          claude plugin validate --strict .claude-plugin/plugin.json
+          claude plugin validate --strict skills

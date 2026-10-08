@@ -1,0 +1,21 @@
+{
+  "name": "rao-review",
+  "version": "1.0.0",
+  "description": "Code review in the style of a senior SharinPix reviewer: line-level asks to delete or simplify code, reshape tests, fix names, move logic to the object that owns it, and use Bootstrap and Ember idioms. Mostly Ember/TypeScript, some Rails.",
+  "author": {
+    "name": "Shakeel Mohun",
+    "url": "https://github.com/chatquill"
+  },
+  "homepage": "https://github.com/chatquill/rao-review",
+  "repository": "https://github.com/chatquill/rao-review",
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "review",
+    "skill",
+    "ember",
+    "typescript",
+    "rails",
+    "bootstrap"
+  ]
+}
