@@ -82,8 +82,7 @@ Reviewing a PR number needs the [`gh` CLI](https://cli.github.com/) signed in to
 ```text
 .claude-plugin/
 ├── plugin.json              Plugin manifest
-├── marketplace.json         Lets this repo work as its own marketplace
-└── icon.png                 Plugin icon
+└── marketplace.json         Lets this repo work as its own marketplace
 skills/rao-review/
 └── SKILL.md                 The instructions Claude follows
 ```
